@@ -298,7 +298,6 @@ function hd_delete_stream_callback() {
         
     } catch (Exception $e) {
         outputAWSError($e);
-        wp_mail( 'stephen_dade@hotmail.com', 'Debug', $e );
         return;
     } 
     

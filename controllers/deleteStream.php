@@ -38,7 +38,6 @@ class HD_DeleteLargeStream extends WP_Background_Process {
                 ],
                 'Limit' => 100
             ];
-            wp_mail( 'stephen_dade@hotmail.com', 'Debug', $request['ExclusiveStartKey'] );
             # Add the ExclusiveStartKey if we got one back in the previous response
             if(isset($responseStream) && isset($responseStream['LastEvaluatedKey'])) {
                 $request['ExclusiveStartKey'] = $responseStream['LastEvaluatedKey'];

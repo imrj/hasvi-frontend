@@ -73,7 +73,6 @@ function aws_prep() {
         //get the user settings
         $options = get_option( 'Hasvi_settings' );
         $sdk = new Aws\Sdk([
-            //'region'   => 'ap-southeast-2',
             'region'   => $options['Hasvi_AWSRegion'],
             'version'  => 'latest',
             'credentials' => [
@@ -84,7 +83,7 @@ function aws_prep() {
     
         $dynamodb = $sdk->createDynamoDb();
     } catch (Exception $e) {
-        wp_mail( 'stephen_dade@hotmail.com', 'DB Error', $e->getMessage());
+        outputAWSError($e)
     }
 }
 
@@ -102,7 +101,6 @@ function outputAWSError(Exception $e) {
        $jTableResult['Message'] = $e->getMessage();
     }
     
-    wp_mail( 'stephen_dade@hotmail.com', 'Hasvi Debug', $e->getMessage() );
     return wp_send_json($jTableResult); 
 }
 

@@ -46,7 +46,6 @@ function hd_newUseraddtop($level, $user_id) {
     }
     
     $user_info = get_userdata($user_id);
-    //wp_mail( 'stephen_dade@hotmail.com', 'Debug', 'At end of hd_newUseraddtop');
     hd_newUseradd( $user_info->user_login, $maxStreamLength, $maxStreams, $maxViews, $minRefresh, $timeOut);
 }
 
@@ -72,7 +71,6 @@ function hd_newUseradd( $user_name, $maxStreamLength, $maxStreams, $maxViews, $m
         ]]);
         
     } catch (Exception $e) {
-        wp_mail( 'stephen_dade@hotmail.com', 'DB Error', $e->getMessage());
         return $e->getMessage();
     } 
 }
@@ -82,7 +80,6 @@ function hd_newUseradd( $user_name, $maxStreamLength, $maxStreams, $maxViews, $m
 */
 add_action( 'delete_user', 'hd_delUser' );
 function hd_delUser( $user_id ) { 
-    //wp_mail( 'stephen_dade@hotmail.com', 'Debug', 'At start of hd_newUser');
     $user_info = get_userdata($user_id);
     
     global $dynamodb;
@@ -111,7 +108,6 @@ function hd_delUser( $user_id ) {
                     ]
             ]);
         } catch (Exception $e) {
-            wp_mail( 'stephen_dade@hotmail.com', 'DB Error', $e->getMessage());
             outputAWSError($e);
             return;
         } 
@@ -139,7 +135,6 @@ function hd_delUser( $user_id ) {
                 ]
             ]);
         } catch (Exception $e) {
-            wp_mail( 'stephen_dade@hotmail.com', 'DB Error', $e->getMessage());
             outputAWSError($e);
             return;
         } 
@@ -156,7 +151,6 @@ function hd_delUser( $user_id ) {
             ]
         ]);
     } catch (Exception $e) {
-        wp_mail( 'stephen_dade@hotmail.com', 'DB Error', $e->getMessage());
         outputAWSError($e);
         return;
     }
