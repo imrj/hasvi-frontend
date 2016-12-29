@@ -7,7 +7,7 @@
 * Get names of tables and indexes, dependent upon whether we're in debug or release mode
 */
 function aws_getTableName($tablename) {
-    $options = get_option( 'Hadavi2_settings' );
+    $options = get_option( 'Hasvi_settings' );
     
     //the indexes
     if($tablename == "GSItableNameStream") {
@@ -18,7 +18,7 @@ function aws_getTableName($tablename) {
     } 
     
     //release
-    if($options['Hadavi2_select_isProduction'] == 1) {
+    if($options['Hasvi_select_isProduction'] == 1) {
         if($tablename == "tableNameAC") {
             return "userAccounts";
         }
@@ -32,7 +32,7 @@ function aws_getTableName($tablename) {
             return "IOTData2";
         }
     }  
-    else if($options['Hadavi2_select_isProduction'] == 2) {
+    else if($options['Hasvi_select_isProduction'] == 2) {
         if($tablename == "tableNameAC") {
             return "testing-userAccounts";
         }
@@ -52,9 +52,9 @@ function aws_getTableName($tablename) {
 * Get Hasvi URL of AWS, dependent upon debug/release mode
 */
 function aws_getLinkName() {
-    $options = get_option( 'Hadavi2_settings' );
+    $options = get_option( 'Hasvi_settings' );
     
-    return $options['Hadavi2_AWSURL'];
+    return $options['Hasvi_AWSURL'];
     
 }
 
@@ -71,14 +71,14 @@ function aws_prep() {
           
     try {
         //get the user settings
-        $options = get_option( 'Hadavi2_settings' );
+        $options = get_option( 'Hasvi_settings' );
         $sdk = new Aws\Sdk([
             //'region'   => 'ap-southeast-2',
-            'region'   => $options['Hadavi2_AWSRegion'],
+            'region'   => $options['Hasvi_AWSRegion'],
             'version'  => 'latest',
             'credentials' => [
-                'key'    => $options['Hadavi2_AWSKey'],
-                'secret' => $options['Hadavi2_AWSSecretKey'],
+                'key'    => $options['Hasvi_AWSKey'],
+                'secret' => $options['Hasvi_AWSSecretKey'],
         ],
         ]);
     
@@ -92,8 +92,8 @@ function aws_prep() {
 * Helper function to output AWS error
 */
 function outputAWSError(Exception $e) {
-    $options = get_option( 'Hadavi2_settings' );
-    if($options['Hadavi2_select_isProduction'] == 1) {
+    $options = get_option( 'Hasvi_settings' );
+    if($options['Hasvi_select_isProduction'] == 1) {
         $jTableResult['Result'] = "Error";
         $jTableResult['Message'] = "Internal error";
     }

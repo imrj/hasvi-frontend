@@ -3,134 +3,134 @@
 This is the settings page, based on http://wpsettingsapi.jeroensormani.com/ 
 */
 
-add_action( 'admin_menu', 'Hadavi2_add_admin_menu' );
-add_action( 'admin_init', 'Hadavi2_settings_init' );
+add_action( 'admin_menu', 'Hasvi_add_admin_menu' );
+add_action( 'admin_init', 'Hasvi_settings_init' );
 
-function Hadavi2_add_admin_menu(  ) { 
+function Hasvi_add_admin_menu(  ) { 
 
-	add_menu_page( 'Hadavi2', 'Hadavi2', 'manage_options', 'hadavi2', 'Hadavi2_options_page' );
-    add_submenu_page('hadavi2', 'Hadavi2', 'Users', 'manage_options', 'hadavi2-users', 'Hadavi2_users_page' );
+	add_menu_page( 'Hasvi', 'Hasvi', 'manage_options', 'Hasvi', 'Hasvi_options_page' );
+    add_submenu_page('Hasvi', 'Hasvi', 'Users', 'manage_options', 'Hasvi-users', 'Hasvi_users_page' );
 
 }
 
 
-function Hadavi2_settings_init(  ) { 
+function Hasvi_settings_init(  ) { 
 
-	register_setting( 'pluginPage', 'Hadavi2_settings' );
+	register_setting( 'pluginPage', 'Hasvi_settings' );
 
 	add_settings_section(
-		'Hadavi2_pluginPage_section', 
-		__( 'Settings for Hadavi DynamoDB interface', 'wordpress' ), 
-		'Hadavi2_settings_section_callback', 
+		'Hasvi_pluginPage_section', 
+		__( 'Settings for Hasvi DynamoDB interface', 'wordpress' ), 
+		'Hasvi_settings_section_callback', 
 		'pluginPage'
 	);
 
 	add_settings_field( 
-		'Hadavi2_select_isProduction', 
+		'Hasvi_select_isProduction', 
 		__( 'Use Debug or Production tables', 'wordpress' ), 
-		'Hadavi2_select_isProduction_render', 
+		'Hasvi_select_isProduction_render', 
 		'pluginPage', 
-		'Hadavi2_pluginPage_section' 
+		'Hasvi_pluginPage_section' 
 	);
 
 	add_settings_field( 
-		'Hadavi2_AWSKey', 
+		'Hasvi_AWSKey', 
 		__( 'AWS Key', 'wordpress' ), 
-		'Hadavi2_AWSKey_render', 
+		'Hasvi_AWSKey_render', 
 		'pluginPage', 
-		'Hadavi2_pluginPage_section' 
+		'Hasvi_pluginPage_section' 
 	);
 
 	add_settings_field( 
-		'Hadavi2_AWSSecretKey', 
+		'Hasvi_AWSSecretKey', 
 		__( 'AWS Secret Key', 'wordpress' ), 
-		'Hadavi2_AWSSecretKey_render', 
+		'Hasvi_AWSSecretKey_render', 
 		'pluginPage', 
-		'Hadavi2_pluginPage_section' 
+		'Hasvi_pluginPage_section' 
 	);
     
     add_settings_field( 
-		'Hadavi2_AWSURL', 
+		'Hasvi_AWSURL', 
 		__( 'URL to AWS Hasvi-backend server', 'wordpress' ), 
-		'Hadavi2_AWSURL_render', 
+		'Hasvi_AWSURL_render', 
 		'pluginPage', 
-		'Hadavi2_pluginPage_section' 
+		'Hasvi_pluginPage_section' 
 	);
     
     add_settings_field( 
-		'Hadavi2_AWSRegion', 
+		'Hasvi_AWSRegion', 
 		__( 'AWS Region', 'wordpress' ), 
-		'Hadavi2_AWSRegion_render', 
+		'Hasvi_AWSRegion_render', 
 		'pluginPage', 
-		'Hadavi2_pluginPage_section' 
+		'Hasvi_pluginPage_section' 
 	);
 
 
 }
 
 
-function Hadavi2_select_isProduction_render(  ) { 
+function Hasvi_select_isProduction_render(  ) { 
 
-	$options = get_option( 'Hadavi2_settings' );
+	$options = get_option( 'Hasvi_settings' );
 	?>
-	<select name='Hadavi2_settings[Hadavi2_select_isProduction]'>
-		<option value='1' <?php selected( $options['Hadavi2_select_isProduction'], 1 ); ?>>Release</option>
-		<option value='2' <?php selected( $options['Hadavi2_select_isProduction'], 2 ); ?>>Debug</option>
+	<select name='Hasvi_settings[Hasvi_select_isProduction]'>
+		<option value='1' <?php selected( $options['Hasvi_select_isProduction'], 1 ); ?>>Release</option>
+		<option value='2' <?php selected( $options['Hasvi_select_isProduction'], 2 ); ?>>Debug</option>
 	</select>
 
 <?php
 
 }
 
-function Hadavi2_AWSURL_render(  ) { 
+function Hasvi_AWSURL_render(  ) { 
 
-	$options = get_option( 'Hadavi2_settings' );
+	$options = get_option( 'Hasvi_settings' );
 	?>
-	<input type='text' size="50" name='Hadavi2_settings[Hadavi2_AWSURL]' value='<?php echo $options['Hadavi2_AWSURL']; ?>'>
+	<input type='text' size="50" name='Hasvi_settings[Hasvi_AWSURL]' value='<?php echo $options['Hasvi_AWSURL']; ?>'>
     <p>Must be of the form http://your.site.com/</p>
 	<?php
 
 }
 
-function Hadavi2_AWSKey_render(  ) { 
+function Hasvi_AWSKey_render(  ) { 
 
-	$options = get_option( 'Hadavi2_settings' );
+	$options = get_option( 'Hasvi_settings' );
 	?>
-	<input type='text' size="50" name='Hadavi2_settings[Hadavi2_AWSKey]' value='<?php echo $options['Hadavi2_AWSKey']; ?>'>
+	<input type='text' size="50" name='Hasvi_settings[Hasvi_AWSKey]' value='<?php echo $options['Hasvi_AWSKey']; ?>'>
     <p>This key must have read and write permissions to DynamoDB.</p>
 	<?php
 
 }
 
 
-function Hadavi2_AWSSecretKey_render(  ) { 
+function Hasvi_AWSSecretKey_render(  ) { 
 
-	$options = get_option( 'Hadavi2_settings' );
+	$options = get_option( 'Hasvi_settings' );
 	?>
-	<input type='text' size="50" name='Hadavi2_settings[Hadavi2_AWSSecretKey]' value='<?php echo $options['Hadavi2_AWSSecretKey']; ?>'>
+	<input type='text' size="50" name='Hasvi_settings[Hasvi_AWSSecretKey]' value='<?php echo $options['Hasvi_AWSSecretKey']; ?>'>
 	<?php
 
 }
 
-function Hadavi2_AWSRegion_render(  ) { 
+function Hasvi_AWSRegion_render(  ) { 
 
-	$options = get_option( 'Hadavi2_settings' );
+	$options = get_option( 'Hasvi_settings' );
 	?>
-	<input type='text' size="50" name='Hadavi2_settings[Hadavi2_AWSRegion]' value='<?php echo $options['Hadavi2_AWSRegion']; ?>'>
+	<input type='text' size="50" name='Hasvi_settings[Hasvi_AWSRegion]' value='<?php echo $options['Hasvi_AWSRegion']; ?>'>
 	<p>AWS Region of the DynamoDb table. For example: ap-southeast-2.</p>
     <?php
 
 }
 
 
-function Hadavi2_settings_section_callback(  ) { 
+function Hasvi_settings_section_callback(  ) { 
 
-	echo __( 'This is the page for Hadavi Settings', 'wordpress' );
+	echo __( 'This is the page for Hasvi Settings', 'wordpress' );
 
 }
 
 //Check the AWS connection settings
-function Hadavi2_settings_checkAWS() {
+function Hasvi_settings_checkAWS() {
 	global $dynamodb;
     global $user_login;
     
@@ -239,7 +239,7 @@ function hd_checkGSItableNameView() {
     return $responseView['Count'];
 }
 
-function Hadavi2_options_page(  ) { 
+function Hasvi_options_page(  ) { 
 
 	?>
 	<form action='options.php' method='post'>
@@ -249,7 +249,7 @@ function Hadavi2_options_page(  ) {
 		do_settings_sections( 'pluginPage' );
         submit_button();
         
-        Hadavi2_settings_checkAWS();
+        Hasvi_settings_checkAWS();
         
 		
 		?>
@@ -260,8 +260,8 @@ function Hadavi2_options_page(  ) {
 }
 
 // The edit user page on the options. Uses ajax.
-function Hadavi2_users_page(  ) { 
-    wp_enqueue_script( 'hadavi.admin' );
+function Hasvi_users_page(  ) { 
+    wp_enqueue_script( 'hasvi.admin' );
     global $user_login;
     
 

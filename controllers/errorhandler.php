@@ -6,10 +6,10 @@ This is the fatal error handler, should only work in debug mode
 register_shutdown_function( "fatal_handler" );
 
 function fatal_handler() {
-  $options = get_option( 'Hadavi2_settings' );
+  $options = get_option( 'Hasvi_settings' );
   
   //Only output the error message if we're in debug mode (2)
-  if($options['Hadavi2_select_isProduction'] == 1) {
+  if($options['Hasvi_select_isProduction'] == 1) {
     return;
   }
     

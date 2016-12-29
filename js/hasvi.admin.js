@@ -1,4 +1,4 @@
-/* Script for Hadavi admin actions
+/* Script for Hasvi admin actions
 
 Stephen Dade
 */

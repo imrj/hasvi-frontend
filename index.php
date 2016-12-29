@@ -1,11 +1,11 @@
 <?php
 /*
-Plugin Name: Hadavi2 for WordPress
-Plugin URI: http://www.hadavi.com.au
-Description: A wordpress interface to the Hadavi server.
-Version: 1.0.0
+Plugin Name: Hasvi for WordPress
+Plugin URI: http://www.hasvi.com.au
+Description: A wordpress interface to the Hasvi server.
+Version: 1.0.1
 Author: Stephen Dade
-Author URI: http://www.hadavi.com.au
+Author URI: http://www.hasvi.com.au
 */
 
 //Note this issue on php 5.6:
@@ -15,43 +15,43 @@ Author URI: http://www.hadavi.com.au
 defined('ABSPATH') or die("No script kiddies please!");
 
 // Global definitions
-define( 'HADAVI_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . dirname(plugin_basename( __FILE__ )));
+define( 'HASVI_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . dirname(plugin_basename( __FILE__ )));
 
 //Async process handler
-include(HADAVI_PLUGIN_DIR.'/wp-background-processing/wp-background-processing.php');
+include(HASVI_PLUGIN_DIR.'/wp-background-processing/wp-background-processing.php');
 
 //Fatal error handler
-include(HADAVI_PLUGIN_DIR.'/controllers/errorhandler.php');
+include(HASVI_PLUGIN_DIR.'/controllers/errorhandler.php');
 
 //AWS SDK
-require HADAVI_PLUGIN_DIR.'/aws.phar';
+require HASVI_PLUGIN_DIR.'/aws.phar';
 
 //AWS functions
-include(HADAVI_PLUGIN_DIR.'/controllers/aws.php');
+include(HASVI_PLUGIN_DIR.'/controllers/aws.php');
 
 //Special class to delete large streams in the background
-include(HADAVI_PLUGIN_DIR.'/controllers/deleteStream.php');
+include(HASVI_PLUGIN_DIR.'/controllers/deleteStream.php');
 
 global $hd_delProcess;
 $hd_delProcess = new HD_DeleteLargeStream();
 
 //Create account on new user rego action
-include(HADAVI_PLUGIN_DIR.'/controllers/newUser.php');
+include(HASVI_PLUGIN_DIR.'/controllers/newUser.php');
 
 //Admin pages
-include(HADAVI_PLUGIN_DIR.'/views/options.php');
+include(HASVI_PLUGIN_DIR.'/views/options.php');
 
 //backend support for Admin page
-include(HADAVI_PLUGIN_DIR.'/controllers/adminUser.php');
+include(HASVI_PLUGIN_DIR.'/controllers/adminUser.php');
 
 //Stream json page
-include(HADAVI_PLUGIN_DIR.'/controllers/stream.php');
+include(HASVI_PLUGIN_DIR.'/controllers/stream.php');
 
 //Views json page
-include(HADAVI_PLUGIN_DIR.'/controllers/view.php');
+include(HASVI_PLUGIN_DIR.'/controllers/view.php');
 
 //Account json page
-include(HADAVI_PLUGIN_DIR.'/controllers/account.php');
+include(HASVI_PLUGIN_DIR.'/controllers/account.php');
 
 function install_hd_plugin(){
 	//InstallController::install();
@@ -71,11 +71,11 @@ function uninstall_hd_plugin(){
 function addHDScripts() {
 	wp_register_script( "jtable", plugins_url("js/jtable/jquery.jtable.js", __FILE__ ),
 			array("jquery-ui-core", "jquery-ui-button", "jquery-ui-dialog", "jquery-effects-core") );               
-    wp_register_script( "hadavi.streams", plugins_url("js/hadavi.streams.js", __FILE__ ), array("jtable"));
-    wp_register_style( "hadavi.streams.ui", plugins_url("js/jtable/themes/base/jquery-ui.min.css", __FILE__ ));
-    wp_register_style( "hadavi.streams.struct", plugins_url("js/jtable/themes/jqueryui/jquery-ui.structure.min.css", __FILE__ ));
-    wp_register_style( "hadavi.streams.table.jq", plugins_url("js/jtable/themes/jqueryui/jtable_jqueryui.min.css", __FILE__ ));
-    wp_register_style( "hadavi.streams.table.ui", plugins_url("js/jtable/themes/metro/darkgray/jtable.min.css", __FILE__ ));
+    wp_register_script( "hasvi.streams", plugins_url("js/hasvi.streams.js", __FILE__ ), array("jtable"));
+    wp_register_style( "hasvi.streams.ui", plugins_url("js/jtable/themes/base/jquery-ui.min.css", __FILE__ ));
+    wp_register_style( "hasvi.streams.struct", plugins_url("js/jtable/themes/jqueryui/jquery-ui.structure.min.css", __FILE__ ));
+    wp_register_style( "hasvi.streams.table.jq", plugins_url("js/jtable/themes/jqueryui/jtable_jqueryui.min.css", __FILE__ ));
+    wp_register_style( "hasvi.streams.table.ui", plugins_url("js/jtable/themes/metro/darkgray/jtable.min.css", __FILE__ ));
     
 }
 
@@ -83,7 +83,7 @@ function addHDScripts() {
 * Register any admin-only scripts and styles required
 */
 function addHDScriptsAdmin () {
-    wp_register_script( "hadavi.admin", plugins_url("js/hadavi.admin.js", __FILE__ ), array("jquery"));
+    wp_register_script( "hasvi.admin", plugins_url("js/hasvi.admin.js", __FILE__ ), array("jquery"));
 }
 
 /**
@@ -91,10 +91,10 @@ function addHDScriptsAdmin () {
 */
 function hd_userstreamstable() {
     //localise the AJAX, then load the scripts and styles
-    wp_enqueue_style( 'hadavi.streams.ui' );
-    wp_enqueue_style( 'hadavi.streams.table.jq' );
-    wp_localize_script( 'hadavi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
-    wp_enqueue_script( 'hadavi.streams' );
+    wp_enqueue_style( 'hasvi.streams.ui' );
+    wp_enqueue_style( 'hasvi.streams.table.jq' );
+    wp_localize_script( 'hasvi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
+    wp_enqueue_script( 'hasvi.streams' );
             
     $html = '<div id="StreamsTableContainer"></div><div id="ErrorContainer"></div>';
     return $html;
@@ -106,10 +106,10 @@ function hd_userstreamstable() {
 */
 function hd_userviewstable() {
     //localise the AJAX, then load the scripts and styles
-    wp_enqueue_style( 'hadavi.streams.ui' );
-    wp_enqueue_style( 'hadavi.streams.table.jq' );
-    wp_localize_script( 'hadavi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
-    wp_enqueue_script( 'hadavi.streams' );
+    wp_enqueue_style( 'hasvi.streams.ui' );
+    wp_enqueue_style( 'hasvi.streams.table.jq' );
+    wp_localize_script( 'hasvi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
+    wp_enqueue_script( 'hasvi.streams' );
             
     //$html = "<p>User Basic settings...</p>";
     $html = '<div id="ViewsTableContainer"></div><div id="ErrorContainer"></div>';
@@ -122,10 +122,10 @@ function hd_userviewstable() {
 */
 function hd_useraccounttable() {
     //localise the AJAX, then load the scripts and styles
-    wp_enqueue_style( 'hadavi.streams.ui' );
-    wp_enqueue_style( 'hadavi.streams.table.jq' );
-    wp_localize_script( 'hadavi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
-    wp_enqueue_script( 'hadavi.streams' );
+    wp_enqueue_style( 'hasvi.streams.ui' );
+    wp_enqueue_style( 'hasvi.streams.table.jq' );
+    wp_localize_script( 'hasvi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
+    wp_enqueue_script( 'hasvi.streams' );
             
     $html = '<div id=\'UsermaxStreams\'></div>';
     $html .= '<div id=\'UsermaxViews\'></div>';
