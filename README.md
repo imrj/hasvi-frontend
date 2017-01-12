@@ -32,3 +32,12 @@ The `useraccounts` table in DynamboDB contains the limits (max numbers of views 
 
 The limits of a particular user account can be viewed and edited in the Hasvi admin interface, under Hasvi->Users
 
+## Credits
+Hasvi-frontend uses the following libraries:
+- jTable (www.jtable.org)
+- AWS SDK for PHP (https://aws.amazon.com/sdk-for-php/)
+- jQuery (https://jquery.com/)
+- WP Background Processing (https://github.com/A5hleyRich/wp-background-processing)
+
+These libraries (excepting jQuery, as it is included in Wordpress) are contained within the Hasvi-frontend source and do not require seperate installation.
+
