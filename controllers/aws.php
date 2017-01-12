@@ -83,7 +83,7 @@ function aws_prep() {
     
         $dynamodb = $sdk->createDynamoDb();
     } catch (Exception $e) {
-        outputAWSError($e)
+        outputAWSError($e);
     }
 }
 

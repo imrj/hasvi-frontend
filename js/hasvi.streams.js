@@ -42,6 +42,7 @@ jQuery(document).ready(function() {
 		sorting: false,
         jqueryuiTheme: true,
         openChildAsAccordion: true,
+        columnSelectable: false,
 		actions: {
 			listAction: ajax_object.ajax_url.concat('?action=hd_list_stream'),
 			createAction: ajax_object.ajax_url.concat('?action=hd_create_stream'),
@@ -49,6 +50,28 @@ jQuery(document).ready(function() {
 			deleteAction: ajax_object.ajax_url.concat('?action=hd_delete_stream')
 		},
 		fields: {
+            Options: {
+				title: '',
+				width: '2%',
+				create: false,
+				edit: false,
+				display: function (streamData) {
+				    var img = jQuery('<span class="ui-icon ui-icon-caret-1-s"></span>');
+				    img.click(function () {
+				        if (jQuery('#StreamsTableContainer').jtable('isChildRowOpen', img.closest('tr'))) {
+                            jQuery('#StreamsTableContainer').jtable('closeChildRow', img.closest('tr'));
+                        }
+                        else {
+				            var childRow = jQuery('#StreamsTableContainer').jtable('openChildRow', img.closest('tr'));
+				            //childRow.find('td').html('<p>Max = ' + streamData.record.maxValue + ', Min = ' + streamData.record.minValue + '</p>');
+				            var minValRow = '<tr><td>Minimum Value</td><td>' + streamData.record.minValue + '</td></tr>';
+				            var maxValRow = '<tr><td>Maximum Value</td><td>' + streamData.record.maxValue + '</td></tr>';
+				            childRow.find('td').html('<table style="width: 30%;"><tr><th>Option</th><th>Value</th></tr>' + maxValRow + minValRow + '</table>');
+				        }
+                    });
+				    return img;
+				}
+			},
 			Name: {
 				title: 'Stream Name',
 				width: '20%'
@@ -66,23 +89,27 @@ jQuery(document).ready(function() {
 				create: false,
 				edit: false
 			},
-            minValue: {
-				title: 'Min Value',
-				width: '5%',
-				create: true,
-				edit: true
-			},
-            maxValue: {
-				title: 'Max Value',
-				width: '5%',
-				create: true,
-				edit: true
-			},
             Data_URL: {
 				title: 'Data URL',
 				width: '50%',
 				create: false,
 				edit: false
+			},
+            minValue: {
+				title: 'Minimum Value',
+				width: '15%',
+				create: true,
+				edit: true,
+				key: false,
+				visibility: 'hidden'
+			},
+            maxValue: {
+				title: 'Maximum Value',
+				width: '15%',
+				create: true,
+				edit: true,
+				key: false,
+				visibility: 'hidden'
 			}
 		},
         
@@ -96,6 +123,13 @@ jQuery(document).ready(function() {
         recordDeleted: function (event, data) {
             if (data.record) {
                 changedStreams = true;
+            }
+        },
+        recordUpdated: function (event, data) {
+            //close the child row, if required. Allows for refresh of data in row
+            var row = jQuery('#StreamsTableContainer').jtable('getRowByKey', data.record.Token);
+	        if (jQuery('#StreamsTableContainer').jtable('isChildRowOpen', row)) {
+                jQuery('#StreamsTableContainer').jtable('closeChildRow', row);
             }
         }
         
