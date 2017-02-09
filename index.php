@@ -3,7 +3,7 @@
 Plugin Name: Hasvi for WordPress
 Plugin URI: http://www.hasvi.com.au
 Description: A wordpress interface to the Hasvi server.
-Version: 1.0.1
+Version: 1.1.0
 Author: Stephen Dade
 Author URI: http://www.hasvi.com.au
 */
@@ -49,6 +49,9 @@ include(HASVI_PLUGIN_DIR.'/controllers/stream.php');
 
 //Views json page
 include(HASVI_PLUGIN_DIR.'/controllers/view.php');
+
+//Streams in View json page
+include(HASVI_PLUGIN_DIR.'/controllers/viewStreams.php');
 
 //Account json page
 include(HASVI_PLUGIN_DIR.'/controllers/account.php');

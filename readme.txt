@@ -4,7 +4,7 @@ Donate link: www.hasvi.com
 Tags: aws, iot
 Requires at least: 3.9
 Tested up to: 4.3
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 
 A wordpress interface to the Hasvi backend
 
@@ -16,6 +16,8 @@ Hasvi is a package that gives small data stream storage and visualisation capabi
 2. 
 
 == Changelog ==
+= 1.1.0 =
+* Added front end handling for views with multiple streams
 = 1.0.1 =
 * Consistent naming for Hasvi
 = 1.0 =

@@ -152,26 +152,81 @@ jQuery(document).ready(function() {
 			deleteAction: ajax_object.ajax_url.concat('?action=hd_delete_view')
 		},
 		fields: {
+            Options: {
+				title: '',
+				width: '2%',
+				create: false,
+				edit: false,
+				display: function (ViewData) {
+				    var img = jQuery('<span class="ui-icon ui-icon-caret-1-s"></span>');
+				    img.click(function () {
+				        jQuery('#ViewsTableContainer').jtable('openChildTable',
+                            img.closest('tr'),
+                            {
+                                title: ViewData.record.Name + ' - Streams',
+                                actions: {
+                                    listAction: ajax_object.ajax_url.concat('?action=hd_list_view_streams'),
+                                    deleteAction: ajax_object.ajax_url.concat('?action=hd_delete_view_streams'),
+                                    createAction: ajax_object.ajax_url.concat('?action=hd_create_view_streams')
+                                },
+                                fields: {
+                                    Token: {
+                                        create: true,
+                                        edit: false,
+                                        title: 'Stream',
+                                        width: '33%',
+                                        options: function(data) {
+                                            if(changedStreams == true) {
+                                                //clear the options cache if required
+                                                data.clearCache();
+                                                changedStreams = false;
+                                            }
+                                            return ajax_object.ajax_url.concat('?action=hd_list_viewstreamoptions');
+                                        }
+                                    },
+                                    Side: {
+                                        edit: false,
+                                        title: 'Y-Axis Side',
+                                        width: '33%',
+                                        options: { '1': 'Left', '0': 'Right' }
+                                    },
+                                    //composite key of [token,viewname,side]
+                                    compKey: {
+                                        type: 'hidden',
+                                        key: true,
+                                    },
+                                    viewst: {
+                                        type: 'hidden',
+                                        defaultValue: ViewData.record.Name,
+                                    }
+                                }                            
+                            }, function (data) { //opened handler
+                                data.childTable.jtable('load', { viewst: ViewData.record.Name });
+                            });                            
+                    });
+				    return img;
+				}
+            },
 			Name: {
 				title: 'View Name',
 				width: '20%',
                 create: true,
                 key: true,
 			},
-			Token: {
-				title: 'Data Source',
-				width: '20%',
-                create: true,
-				edit: true,
-                options: function(data) {
-                    if(changedStreams == true) {
+			// Token: {
+				// title: 'Data Source',
+				// width: '20%',
+                // create: true,
+				// edit: true,
+                // options: function(data) {
+                    // if(changedStreams == true) {
                         //clear the options cache if required
-                        data.clearCache();
-                        changedStreams = false;
-                    }
-                    return ajax_object.ajax_url.concat('?action=hd_list_viewstreamoptions');
-                }
-			},
+                        // data.clearCache();
+                        // changedStreams = false;
+                    // }
+                    // return ajax_object.ajax_url.concat('?action=hd_list_viewstreamoptions');
+                // }
+			// },
             Timezone: {
 				title: 'Timezone',
 				width: '5%',
