@@ -8,7 +8,11 @@ Sync the new user or delete user actions to the back-end database
 */
 add_action( 'user_register', 'hd_newUser' );
 function hd_newUser( $user_id ) { 
-    hd_newUseraddtop(0, $user_id);   
+    //hd_newUseraddtop(0, $user_id);
+    $user_info = get_userdata($user_id);
+    $options = get_option( 'Hasvi_settings' );
+    
+    hd_newUseradd( $user_info->user_login, $options['Hasvi_maxStreamLength'], $options['maxStreams'], $options['maxViews'], $options['minRefresh'], "0");
 }
 
 /**

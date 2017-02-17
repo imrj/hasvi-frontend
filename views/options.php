@@ -64,8 +64,38 @@ function Hasvi_settings_init(  ) {
 		'pluginPage', 
 		'Hasvi_pluginPage_section' 
 	);
+    
+    add_settings_field( 
+		'Hasvi_maxStreamLength', 
+		__( 'Maximum Items in a single stream', 'wordpress' ), 
+		'Hasvi_maxStreamLength_render', 
+		'pluginPage', 
+		'Hasvi_pluginPage_section' 
+	);
 
+    add_settings_field( 
+		'Hasvi_maxStreams', 
+		__( 'Maximum number of streams', 'wordpress' ), 
+		'Hasvi_maxStreams_render', 
+		'pluginPage', 
+		'Hasvi_pluginPage_section' 
+	);
+    
+    add_settings_field( 
+		'Hasvi_maxViews', 
+		__( 'Maximum number of views', 'wordpress' ), 
+		'Hasvi_maxViews_render', 
+		'pluginPage', 
+		'Hasvi_pluginPage_section' 
+	);
 
+    add_settings_field( 
+		'Hasvi_minRefresh', 
+		__( 'Minimum time between writes to a stream (sec)', 'wordpress' ), 
+		'Hasvi_minRefresh_render', 
+		'pluginPage', 
+		'Hasvi_pluginPage_section' 
+	);
 }
 
 
@@ -79,6 +109,42 @@ function Hasvi_select_isProduction_render(  ) {
 	</select>
 
 <?php
+
+}
+
+function Hasvi_maxStreamLength_render(  ) { 
+
+	$options = get_option( 'Hasvi_settings' );
+	?>
+	<input type='number' size="50" name='Hasvi_settings[Hasvi_maxStreamLength]' value='<?php echo $options['Hasvi_maxStreamLength']; ?>'>
+	<?php
+
+}
+
+function Hasvi_maxStreams_render(  ) { 
+
+	$options = get_option( 'Hasvi_settings' );
+	?>
+	<input type='number' size="50" name='Hasvi_settings[maxStreams]' value='<?php echo $options['maxStreams']; ?>'>
+	<?php
+
+}
+
+function Hasvi_maxViews_render(  ) { 
+
+	$options = get_option( 'Hasvi_settings' );
+	?>
+	<input type='number' size="50" name='Hasvi_settings[maxViews]' value='<?php echo $options['maxViews']; ?>'>
+	<?php
+
+}
+
+function Hasvi_minRefresh_render(  ) { 
+
+	$options = get_option( 'Hasvi_settings' );
+	?>
+	<input type='number' step='0.01' size="50" name='Hasvi_settings[minRefresh]' value='<?php echo $options['minRefresh']; ?>'>
+	<?php
 
 }
 
