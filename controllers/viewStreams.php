@@ -235,19 +235,32 @@ function hd_delete_view_streams_callback() {
             }
             $oldStreamsR = array_values($oldStreamsR);
             
-            //edit in database
-            $responseViewStream = $dynamodb->updateItem ([
-                'TableName' => aws_getTableName("tableNameView"),
-                'ExpressionAttributeNames' => ['#N' => 'tokensRight',],
-                'ExpressionAttributeValues' => [
-                    ':val1' => ['SS' => $oldStreamsR],
-                ],
-                'UpdateExpression' => 'set #N = :val1',
-                'Key' => [
-                    'subURL' => ['S' => $Viewname],
-                    'username' => ['S' => $user_login]
-                ]
-            ]);
+            //edit in database. If no streams, delete the attribute
+            if($oldStreamsR != []) {
+                $responseViewStream = $dynamodb->updateItem ([
+                    'TableName' => aws_getTableName("tableNameView"),
+                    'ExpressionAttributeNames' => ['#N' => 'tokensRight',],
+                    'ExpressionAttributeValues' => [
+                        ':val1' => ['SS' => $oldStreamsR],
+                    ],
+                    'UpdateExpression' => 'set #N = :val1',
+                    'Key' => [
+                        'subURL' => ['S' => $Viewname],
+                        'username' => ['S' => $user_login]
+                    ]
+                ]);
+            }
+            else {
+                $responseViewStream = $dynamodb->updateItem ([
+                    'TableName' => aws_getTableName("tableNameView"),
+                    'ExpressionAttributeNames' => ['#N' => 'tokensRight',],
+                    'UpdateExpression' => 'remove #N',
+                    'Key' => [
+                        'subURL' => ['S' => $Viewname],
+                        'username' => ['S' => $user_login]
+                    ]
+                ]);            
+            }
         
         }
         else if($delViewStreamSide == '1' && array_key_exists('tokensLeft', $responseView['Item'])) {
@@ -259,19 +272,32 @@ function hd_delete_view_streams_callback() {
             }
             $oldStreamsL = array_values($oldStreamsL);
             
-            //edit in database
-            $responseViewStream = $dynamodb->updateItem ([
-                'TableName' => aws_getTableName("tableNameView"),
-                'ExpressionAttributeNames' => ['#N' => 'tokensLeft',],
-                'ExpressionAttributeValues' => [
-                    ':val1' => ['SS' => $oldStreamsL],
-                ],
-                'UpdateExpression' => 'set #N = :val1',
-                'Key' => [
-                    'subURL' => ['S' => $Viewname],
-                    'username' => ['S' => $user_login]
-                ]
-            ]);
+            //edit in database. If no streams, delete the attribute
+            if($oldStreamsL != []) {
+                $responseViewStream = $dynamodb->updateItem ([
+                    'TableName' => aws_getTableName("tableNameView"),
+                    'ExpressionAttributeNames' => ['#N' => 'tokensLeft',],
+                    'ExpressionAttributeValues' => [
+                        ':val1' => ['SS' => $oldStreamsL],
+                    ],
+                    'UpdateExpression' => 'set #N = :val1',
+                    'Key' => [
+                        'subURL' => ['S' => $Viewname],
+                        'username' => ['S' => $user_login]
+                    ]
+                ]);
+            }
+            else {
+                $responseViewStream = $dynamodb->updateItem ([
+                    'TableName' => aws_getTableName("tableNameView"),
+                    'ExpressionAttributeNames' => ['#N' => 'tokensLeft',],
+                    'UpdateExpression' => 'remove #N',
+                    'Key' => [
+                        'subURL' => ['S' => $Viewname],
+                        'username' => ['S' => $user_login]
+                    ]
+                ]);            
+            }
         }
         else {
             $jTableResult = array();
