@@ -297,7 +297,7 @@ function hd_edit_view_callback() {
 add_action( 'wp_ajax_hd_edit_view', 'hd_edit_view_callback' );
 
  /**
- * Create a view URL
+ * Create a view URL. Include share buttons
  */
 function hd_createViewUrl($user_name, $subURL, $filetype) {
     //format the file extension if required
@@ -308,6 +308,8 @@ function hd_createViewUrl($user_name, $subURL, $filetype) {
         $fileExt = '.' . $filetype;
     }
     
-    return '<a href="'. aws_getLinkName(). 'views/' . $user_name . '/' . $subURL . $fileExt . '" target="_blank">'. aws_getLinkName(). 'views/' . $user_name . '/' . $subURL . $fileExt . '</a>';
+    return aws_getLinkName(). 'views/' . $user_name . '/' . $subURL . $fileExt;
+    
 }
+
 ?>

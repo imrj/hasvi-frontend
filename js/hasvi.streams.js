@@ -6,6 +6,15 @@ Stephen Dade
 //has the streams list been changed?
 var changedStreams = false;
 
+//Load Facebook SDK
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
 jQuery(document).ready(function() {
     //Show user account details
     request = jQuery.ajax({
@@ -245,8 +254,10 @@ jQuery(document).ready(function() {
 				title: 'URL',
 				width: '40%',
 				create: false,
-				edit: false
-                
+				edit: false,
+                display: function (ViewData) {
+                    return '<a href="' + ViewData.record.View_URL + '" target="_blank">' + ViewData.record.View_URL + '</a><br />' + '<div class="fb-share-button" data-href="' + ViewData.record.View_URL + '" data-layout="button" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=' + ViewData.record.View_URL + '&amp;src=sdkpreparse">Share</a></div>';
+                }
 			}
 		}
 	});

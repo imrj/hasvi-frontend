@@ -115,7 +115,7 @@ function hd_userviewstable() {
     wp_enqueue_script( 'hasvi.streams' );
             
     //$html = "<p>User Basic settings...</p>";
-    $html = '<div id="ViewsTableContainer"></div><div id="ErrorContainer"></div>';
+    $html = '<div id="fb-root"></div><div id="ViewsTableContainer"></div><div id="ErrorContainer"></div>';
     return $html;
 
 }
