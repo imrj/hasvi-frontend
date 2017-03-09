@@ -79,6 +79,7 @@ function addHDScripts() {
     wp_register_style( "hasvi.streams.struct", plugins_url("js/jtable/themes/jqueryui/jquery-ui.structure.min.css", __FILE__ ));
     wp_register_style( "hasvi.streams.table.jq", plugins_url("js/jtable/themes/jqueryui/jtable_jqueryui.min.css", __FILE__ ));
     wp_register_style( "hasvi.streams.table.ui", plugins_url("js/jtable/themes/metro/darkgray/jtable.min.css", __FILE__ ));
+    wp_register_style( "hasvi.streams.sharing", plugins_url("css/sharingbuttons.css", __FILE__ ));
     
 }
 
@@ -111,6 +112,7 @@ function hd_userviewstable() {
     //localise the AJAX, then load the scripts and styles
     wp_enqueue_style( 'hasvi.streams.ui' );
     wp_enqueue_style( 'hasvi.streams.table.jq' );
+    wp_enqueue_style( 'hasvi.streams.sharing' );
     wp_localize_script( 'hasvi.streams', 'ajax_object', array( 'ajax_url' => admin_url( 'admin-ajax.php' )));
     wp_enqueue_script( 'hasvi.streams' );
             

@@ -54,7 +54,7 @@ function hd_list_stream_callback() {
             $newdata = array(
                 'Token'  => $StreamIterator['hash']['S'],
                 'Name' => $StreamIterator['name']['S'],
-                'Data_URL' => '<a href="'. aws_getLinkName(). 'insertData?token=' . $StreamIterator['hash']['S'] . '&data=XXX">'. aws_getLinkName(). 'insertData?token=' . $StreamIterator['hash']['S'] . '&data=XXX</a>',
+                'Data_URL' => aws_getLinkName(). 'insertData?token=' . $StreamIterator['hash']['S'] . '&data=XXX',
                 //'Reset_URL' => 'http://data.hasvi.com/resetData?token=' . $StreamIterator['hash']['S'],
                 'Stream_Usage' => $streamCount . '/' . $StreamIterator['maxStreamLength']['N'],
                 'maxValue' => $maxValue,
@@ -202,7 +202,7 @@ function hd_create_stream_callback() {
         $newdata = array(
             'Token'  => $responseStream['Item']['hash']['S'],
             'Name' => $responseStream['Item']['name']['S'],
-            'Data_URL' => '<a href="'. aws_getLinkName(). 'insertData?token=' . $responseStream['Item']['hash']['S'] . '&data=XXX">'. aws_getLinkName(). 'insertData?token=' . $responseStream['Item']['hash']['S'] . '&data=XXX</a>',
+            'Data_URL' => aws_getLinkName(). 'insertData?token=' . $StreamIterator['hash']['S'] . '&data=XXX',
             'Stream_Usage' => '0' . '/' . $responseStream['Item']['maxStreamLength']['N'],
             'maxValue' => array_key_exists('maxValue', $responseStream['Item']) ? $responseStream['Item']['maxValue']['N'] : '',
             'minValue' => array_key_exists('minValue', $responseStream['Item']) ? $responseStream['Item']['minValue']['N'] : ''
