@@ -56,6 +56,8 @@ function hd_list_view_callback() {
                 $newdata = array(
                     'Name' => $ViewIterator['subURL']['S'],
                     'Format' => $ViewIterator['type']['S'],
+                    'RightYAxisTitle' => isset($ViewIterator['nameYRightAxis']['S']) ? $ViewIterator['nameYRightAxis']['S'] : '',
+                    'LeftYAxisTitle' => isset($ViewIterator['nameYLeftAxis']['S']) ? $ViewIterator['nameYLeftAxis']['S'] : '',
                     'Timezone' => isset($ViewIterator['timezone']['N']) ? $ViewIterator['timezone']['N'] : '0',
                     'View_URL' => hd_createViewUrl($user_login, $ViewIterator['subURL']['S'], $ViewIterator['type']['S']),
                 );
@@ -97,6 +99,10 @@ function hd_create_view_callback() {
     $newViewFormat = isset($_POST['Format']) ? safeUserInput($_POST['Format']) : '';
     $newViewTimezone = '';
     $newViewTimezone = isset($_POST['Timezone']) ? safeUserInput($_POST['Timezone']) : '';
+    $newViewRightYAxisTitle = '';
+    $newViewRightYAxisTitle = isset($_POST['RightYAxisTitle']) ? safeUserInput($_POST['RightYAxisTitle']) : '';
+    $newViewLeftYAxisTitle = '';
+    $newViewLeftYAxisTitle = isset($_POST['LeftYAxisTitle']) ? safeUserInput($_POST['LeftYAxisTitle']) : '';
     
     if($newViewname == '' or $newViewFormat == '') {
         $jTableResult = array();
@@ -152,6 +158,34 @@ function hd_create_view_callback() {
             'timezone' => ['N' => $newViewTimezone],
         ]]);
         
+        //add in y axis labels as required
+        if($newViewRightYAxisTitle != '') {
+            $response = $dynamodb->updateItem([
+                'TableName' => aws_getTableName("tableNameView"),
+                'Key' => [
+                    'subURL' => ['S' => $newViewname],
+                    'username' => ['S' => $user_login]
+                ],
+                'ExpressionAttributeValues' =>  [
+                    ':val1' => ['S' => $newViewRightYAxisTitle] 
+                ] ,
+                'UpdateExpression' => 'set nameYRightAxis = :val1'
+            ]);               
+        }
+        if($newViewLeftYAxisTitle != '') {
+            $response = $dynamodb->updateItem([
+                'TableName' => aws_getTableName("tableNameView"),
+                'Key' => [
+                    'subURL' => ['S' => $newViewname],
+                    'username' => ['S' => $user_login]
+                ],
+                'ExpressionAttributeValues' =>  [
+                    ':val1' => ['S' => $newViewLeftYAxisTitle] 
+                ] ,
+                'UpdateExpression' => 'set nameYLeftAxis = :val1'
+            ]);               
+        }
+        
         //refresh views query - get the item we just inserted
         $responseView = $dynamodb->getItem([
             'TableName' => aws_getTableName("tableNameView"),
@@ -166,6 +200,8 @@ function hd_create_view_callback() {
                 'Name' => $responseView['Item']['subURL']['S'],
                 'Format' => $responseView['Item']['type']['S'],
                 'Timezone' => $responseView['Item']['timezone']['N'],
+                'RightYAxisTitle' => isset($responseView['Item']['nameYRightAxis']['S']) ? $responseView['Item']['nameYRightAxis']['S'] : '',
+                'LeftYAxisTitle' => isset($responseView['Item']['nameYLeftAxis']['S']) ? $responseView['Item']['nameYLeftAxis']['S'] : '',
                 'View_URL' => hd_createViewUrl($user_login, $responseView['Item']['subURL']['S'], $responseView['Item']['type']['S']),
         );
     } catch (Exception $e) {
@@ -240,8 +276,12 @@ function hd_edit_view_callback() {
     $editViewname = preg_replace("/[^A-Za-z0-9]/", '', $editViewname);
     $editViewFormat = '';
     $editViewFormat = isset($_POST['Format']) ? safeUserInput($_POST['Format']) : '';
-    $newViewTimezone = '';
-    $newViewTimezone = isset($_POST['Timezone']) ? safeUserInput($_POST['Timezone']) : '';
+    $editViewTimezone = '';
+    $editViewTimezone = isset($_POST['Timezone']) ? safeUserInput($_POST['Timezone']) : '';
+    $editViewRightYAxisTitle = '';
+    $editViewRightYAxisTitle = isset($_POST['RightYAxisTitle']) ? safeUserInput($_POST['RightYAxisTitle']) : '';
+    $editViewLeftYAxisTitle = '';
+    $editViewLeftYAxisTitle = isset($_POST['LeftYAxisTitle']) ? safeUserInput($_POST['LeftYAxisTitle']) : '';
     
     if($editViewname == '' or $editViewFormat == '') {
         $jTableResult = array();
@@ -258,7 +298,7 @@ function hd_edit_view_callback() {
             'ExpressionAttributeNames' => ['#F' => 'type', '#T' => 'timezone' ],
             'ExpressionAttributeValues' => [
                 ':val2' => ['S' => $editViewFormat],
-                ':val3' => ['N' => $newViewTimezone],
+                ':val3' => ['N' => $editViewTimezone],
             ],
             'UpdateExpression' => 'set #F = :val2, #T = :val3',
             'Key' => [
@@ -266,6 +306,55 @@ function hd_edit_view_callback() {
                 'username' => ['S' => $user_login],
             ]
         ]);
+        
+        //add or remove y-axis values as required
+        if($editViewRightYAxisTitle != '') {
+            $response = $dynamodb->updateItem([
+                'TableName' => aws_getTableName("tableNameView"),
+                'Key' => [
+                    'subURL' => ['S' => $editViewname],
+                    'username' => ['S' => $user_login],
+                ],
+                'ExpressionAttributeValues' =>  [
+                    ':val1' => ['S' => $editViewRightYAxisTitle] 
+                ] ,
+                'UpdateExpression' => 'set nameYRightAxis = :val1'
+            ]);               
+        }
+        else {
+            $response = $dynamodb->updateItem([
+                'TableName' => aws_getTableName("tableNameView"),
+                'Key' => [
+                    'subURL' => ['S' => $editViewname],
+                    'username' => ['S' => $user_login],
+                ],
+                'UpdateExpression' => 'remove nameYRightAxis'
+            ]);         
+        }
+        
+        if($editViewLeftYAxisTitle != '') {
+            $response = $dynamodb->updateItem([
+                'TableName' => aws_getTableName("tableNameView"),
+                'Key' => [
+                    'subURL' => ['S' => $editViewname],
+                    'username' => ['S' => $user_login],
+                ],
+                'ExpressionAttributeValues' =>  [
+                    ':val1' => ['S' => $editViewLeftYAxisTitle] 
+                ] ,
+                'UpdateExpression' => 'set nameYLeftAxis = :val1'
+            ]);               
+        }
+        else {
+            $response = $dynamodb->updateItem([
+                'TableName' => aws_getTableName("tableNameView"),
+                'Key' => [
+                    'subURL' => ['S' => $editViewname],
+                    'username' => ['S' => $user_login],
+                ],
+                'UpdateExpression' => 'remove nameYLeftAxis'
+            ]);         
+        }
         
         //refresh streams query - get the item we just inserted
         $responseView = $dynamodb->getItem([
@@ -280,6 +369,8 @@ function hd_edit_view_callback() {
         $newdata = array(
                 'Name' => $responseView['Item']['subURL']['S'],
                 'Format' => $responseView['Item']['type']['S'],
+                'RightYAxisTitle' => isset($responseView['Item']['nameYRightAxis']['S']) ? $responseView['Item']['nameYRightAxis']['S'] : '',
+                'LeftYAxisTitle' => isset($responseView['Item']['nameYLeftAxis']['S']) ? $responseView['Item']['nameYLeftAxis']['S'] : '',
                 'Timezone' => isset($responseView['Item']['timezone']['N']) ? $responseView['Item']['timezone']['N'] : '0',
                 'View_URL' => hd_createViewUrl($user_login, $responseView['Item']['subURL']['S'], $responseView['Item']['type']['S']),
         );
@@ -288,7 +379,7 @@ function hd_edit_view_callback() {
         return outputAWSError($e);
     }     
     
-    //send back just the OK
+    //send back just the OK and edited data
     $jTableResult = array();
     $jTableResult['Record'] = $newdata;
     $jTableResult['Result'] = "OK";

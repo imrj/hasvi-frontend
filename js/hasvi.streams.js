@@ -210,7 +210,21 @@ jQuery(document).ready(function() {
 				width: '0%',
 				create: true,
 				edit: true,
-                options: ['svg','csv','html','chartjs'],
+                options: ['svg','csv','html','chartjs', 'xlsx'],
+                visibility: 'hidden'
+			},
+			RightYAxisTitle: {
+				title: 'Right Y-axis title',
+				width: '0%',
+				create: true,
+				edit: true,
+                visibility: 'hidden'
+			},
+			LeftYAxisTitle: {
+				title: 'Left Y-axis title',
+				width: '0%',
+				create: true,
+				edit: true,
                 visibility: 'hidden'
 			},
             View_URL: {

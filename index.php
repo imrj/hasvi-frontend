@@ -3,7 +3,7 @@
 Plugin Name: Hasvi for WordPress
 Plugin URI: http://www.hasvi.com.au
 Description: A wordpress interface to the Hasvi server.
-Version: 1.2.0
+Version: 1.3.0
 Author: Stephen Dade
 Author URI: http://www.hasvi.com.au
 */
@@ -19,9 +19,6 @@ define( 'HASVI_PLUGIN_DIR', WP_PLUGIN_DIR . '/' . dirname(plugin_basename( __FIL
 
 //Async process handler
 include(HASVI_PLUGIN_DIR.'/wp-background-processing/wp-background-processing.php');
-
-//Fatal error handler
-include(HASVI_PLUGIN_DIR.'/controllers/errorhandler.php');
 
 //AWS SDK
 require HASVI_PLUGIN_DIR.'/aws.phar';
